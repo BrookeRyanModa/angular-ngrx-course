@@ -130,6 +130,6 @@
     }
   },
   "cli": {
-    "defaultCollection": "@ngrx/schematics"
+    "defaultCollection": "@angular/schematics"
   }
 }

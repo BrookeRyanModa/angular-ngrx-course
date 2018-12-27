@@ -1,39 +1,39 @@
 import {Component, OnInit} from '@angular/core';
-import {Course} from "../model/course";
-import {Observable} from "rxjs";
-import {filter, map, tap, withLatestFrom} from "rxjs/operators";
-import {CoursesService} from "../services/courses.service";
+import {Course} from '../model/course';
+import {Observable} from 'rxjs';
+import {filter, map, tap, withLatestFrom} from 'rxjs/operators';
+import {CoursesService} from '../services/courses.service';
 import {AppState} from '../../reducers';
 import {select, Store} from '@ngrx/store';
 import {selectAdvancedCourses, selectAllCourses, selectBeginnerCourses, selectPromoTotal} from '../course.selectors';
 import {AllCoursesRequested} from '../course.actions';
 @Component({
-    selector: 'home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css']
+  selector: 'home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
 
-    promoTotal$: Observable<number>;
+  promoTotal$: Observable<number>;
+  beginnerCourses$: Observable<Course[]>;
+  advancedCourses$: Observable<Course[]>;
 
-    beginnerCourses$: Observable<Course[]>;
+  constructor(private courses: CoursesService,
+              private store: Store<AppState>) {
 
-    advancedCourses$: Observable<Course[]>;
+    store.dispatch();
+  }
 
-    constructor(private store: Store<AppState>) {
+  ngOnInit() {
 
-    }
+    this.store.dispatch(new AllCoursesRequested());
 
-    ngOnInit() {
+    this.beginnerCourses$ = this.store.pipe(select(selectBeginnerCourses));
 
-        this.store.dispatch(new AllCoursesRequested());
+    this.advancedCourses$ = this.store.pipe(select(selectAdvancedCourses));
 
-        this.beginnerCourses$ = this.store.pipe(select(selectBeginnerCourses));
+    this.promoTotal$ = this.store.pipe(select(selectPromoTotal));
 
-        this.advancedCourses$ = this.store.pipe(select(selectAdvancedCourses));
-
-        this.promoTotal$ = this.store.pipe(select(selectPromoTotal));
-
-    }
+  }
 
 }
