@@ -2,11 +2,11 @@ import {createSelector} from '@ngrx/store';
 
 
 export const selectAuthState = state => state.auth;
-
+// selects only auth state
 
 export const isLoggedIn = createSelector(
-  selectAuthState,
-  auth => auth.loggedIn
+  selectAuthState, // auth state
+  auth => auth.loggedIn // selects only loggedIn flag from auth state
 );
 
 

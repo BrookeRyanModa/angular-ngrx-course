@@ -32,16 +32,17 @@ export class LoginComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnInit() {}
 
-  }
-
+//
   login() {
 
     const val = this.form.value;
 
     this.auth.login(val.email, val.password)
+      // trues to login in using form values
       .pipe(
+        // if successful, create new login object w values
         tap(user => {
 
           this.store.dispatch(new Login({user}));
@@ -51,7 +52,7 @@ export class LoginComponent implements OnInit {
         })
       )
       .subscribe(
-        noop,
+        noop, // else, alert login failed
         () => alert('Login Failed')
       );
 

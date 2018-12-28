@@ -24,11 +24,11 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-
+      // uses isLoggedIn && isLoggedOut selectors to subscribe to only the info needed
       this.isLoggedIn$ = this.store
         .pipe(
           select(isLoggedIn)
-        );
+        ); // select() maps through but also removes dups
 
       this.isLoggedOut$ = this.store
         .pipe(
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
     logout() {
 
       this.store.dispatch(new Logout());
-
+      // new instance of logout action class
     }
 
 

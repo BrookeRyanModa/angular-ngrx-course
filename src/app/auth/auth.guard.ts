@@ -6,26 +6,23 @@ import {AppState} from '../reducers';
 import {isLoggedIn} from './auth.selectors';
 import {tap} from 'rxjs/operators';
 
-
-
 @Injectable()
 export class AuthGuard implements CanActivate {
 
 
-  constructor(private store: Store<AppState>, private router: Router) {
-
-  }
+  constructor(private store: Store<AppState>,
+              private router: Router) {}
 
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean>  {
 
     return this.store
-      .pipe(
+      .pipe( // uses loggedIn selector
         select(isLoggedIn),
         tap(loggedIn => {
 
-          if (!loggedIn) {
+          if (!loggedIn) {// if not redirect to login
             this.router.navigateByUrl('/login');
           }
 
